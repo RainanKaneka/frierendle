@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amarante&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
+    <title>Frierendle</title>
+</head>
+
+<body>
+    <!-- <div class="blur oculto"></div> -->
+
+    <header>
+        <img src="images/frierenLogo.png" class="frierenLogo" alt="">
+        <!-- <h1>Frierendle</h1> -->
+        <p>Adivinhe o personagem de Sousou no Frieren!</p>
+    </header>
+    <main>
+        <div class="guesser">
+            <div class="guesser-container">
+                <input type="text" id="charName" placeholder="Digite o personagem aqui..." autocomplete="off">
+                <div id="sugestoes-box" class="sugestoes-wrapper oculto"></div>
+            </div>
+            <!-- <button type="button" class="guessButton" id="guessButton">Adivinhar</button> -->
+        </div>
+        <div class="resultados">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Personagem</th>
+                        <th>Gênero</th>
+                        <th>Raça</th>
+                        <th>Classe</th>
+                        <th>Afiliação</th>
+                        <th>Status</th>
+                        <th>Aparição</th>
+                        <th>Habilidade Característica</th>
+                        <th>Resultado</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-corpo">
+                </tbody>
+            </table>
+
+
+
+        </div>
+
+
+    </main>
+    <div class="victoryBox float oculto">
+        <i class="fa-solid fa-circle-xmark xButton" style="color: #ff0000;"></i>
+        <div class="mensagem" id="mensagem"></div>
+        <img src="gif/bP9anLZuQgH2IkPk.gif" class="gif" alt="">
+        <div class="mensagem2" id="mensagem2"></div>
+        <div id="countdown-container">Proximo personagem em: <span id="timer">00:00:00</span>
+</div>
+    </div>
+    <div class="frieren-container">
+        <div id="balao-fala" class="balao oculto"></div>
+        <img src="frierenNoBgCute.png" class="frierenChibi" id="frierenPlush" alt="">
+    </div>
+
+
+
+
+</body>
+
+</html>
