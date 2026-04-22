@@ -120,7 +120,7 @@ if (dataSalva === hoje && chutesSalvos) {
                 let qntChuteStorage = localStorage.getItem('qnt_chutes')
                 setTimeout(() => {
                     mensagemElemento.innerHTML = `<h2>Você acertou! <br>✨ O personagem era <span style="color: #7C7BEF;">${personagemDoDia.nome}</span>! ✨</h2>`;
-                    mensagemElemento2.innerHTML = `<h2> Você acertou em <span style="color: #7C7BEF;">${chuteQtn} tentativas</span>!</h2>`;
+                    mensagemElemento2.innerHTML = `<h2> Você acertou em <span style="color: #7C7BEF;">${qntChuteStorage} tentativas</span>!</h2>`;
 
 
                     victoryBox.classList.remove('oculto');
