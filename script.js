@@ -400,6 +400,7 @@ inputBusca.addEventListener('input', () => {
                     sugestoesBox.innerHTML = '';
                     sugestoesBox.classList.add('oculto');
                     Guess()
+                    inputBusca.value = '';
                 };
 
                 sugestoesBox.appendChild(item);
