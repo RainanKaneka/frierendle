@@ -265,7 +265,7 @@ main{
     flex-direction: column;
     align-items: center;
     width: 400px;
-    height: 400px;
+    height: 500px;
     background-color: #0f3460;
     border-radius: 20px;
     border: solid 2.5px #ffd700;
@@ -276,7 +276,7 @@ main{
 
 .float{
     position: fixed;
-    top: 25%;
+    top: 20%;
 }
 
 .frierenLogo{
@@ -459,6 +459,30 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.compartilhar{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 20px;
+    width: 200px;
+    height: 50px;
+    background-color: #1b5eb1;
+    font-size: x-large;
+    font-family: 'FrierenFont';
+    border-radius: 30px;
+    transition: 0.5s;
+    border: solid #ffd700 2px
+    
+}
+
+.compartilhar:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    background-color: #ffd700;
+    color: #1b5eb1;
 }
 
 /*

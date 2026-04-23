@@ -2,6 +2,8 @@ const mensagemElemento = document.getElementById("mensagem")
 
 const mensagemElemento2 = document.getElementById("mensagem2")
 
+const compartilhar = document.getElementById("compartilhar")
+
 let guessButton = document.getElementById("guessButton")
 
 let charName = document.getElementById("charName")
@@ -75,7 +77,7 @@ const listaPersonagens = [
     { "nome": "Solitär", "imagem": "./images/icons/Solitar_manga_portrait.webp", "genero": "Feminino", "raca": "Demônio", "classe": "Mago", "afiliacao": ["N/A"], "habilidade": "Manipulação de Mana", "status": "Morto", "primeira_aparicao": "Capítulo 88" }
 ];
 
-const hoje = new Date().toDateString(); 
+const hoje = new Date().toDateString();
 const semente = new Date().getFullYear() * 10000 + (new Date().getMonth() + 1) * 100 + new Date().getDate();
 const personagemDoDia = listaPersonagens[semente % listaPersonagens.length];
 
@@ -100,7 +102,7 @@ if (dataSalva === hoje && chutesSalvos) {
             if (epChutado < epAlvo) seta = " ⬆️";
             else if (epChutado > epAlvo) seta = " ⬇️";
 
-            const novaLinha = tabelaCorpo.insertRow(0); 
+            const novaLinha = tabelaCorpo.insertRow(0);
 
             novaLinha.innerHTML = `
             <td style="padding-top:10px; padding-bottom:5px;"><img src="${personagemEncontrado.imagem}" class="icons">${personagemEncontrado.nome}</td>
@@ -115,7 +117,7 @@ if (dataSalva === hoje && chutesSalvos) {
         `;
 
             if (personagemEncontrado.nome.toLowerCase() === personagemDoDia.nome.toLowerCase()) {
-                inputBusca.disabled = true; 
+                inputBusca.disabled = true;
                 inputBusca.placeholder = "Você já acertou! Volte amanhã.";
                 let qntChuteStorage = localStorage.getItem('qnt_chutes')
                 setTimeout(() => {
@@ -139,17 +141,17 @@ if (dataSalva === hoje && chutesSalvos) {
 }
 
 function victoryWindow() {
-    
-        mensagemElemento.innerHTML = `<h2>Você acertou! <br>✨ O personagem era <span style="color: #7C7BEF;">${personagemDoDia.nome}</span>! ✨</h2>`;
-        mensagemElemento2.innerHTML = `<h2> Você acertou em <span style="color: #7C7BEF;">${chuteQtn} tentativas</span>!</h2>`;
+
+    mensagemElemento.innerHTML = `<h2>Você acertou! <br>✨ O personagem era <span style="color: #7C7BEF;">${personagemDoDia.nome}</span>! ✨</h2>`;
+    mensagemElemento2.innerHTML = `<h2> Você acertou em <span style="color: #7C7BEF;">${chuteQtn} tentativas</span>!</h2>`;
 
 
-        victoryBox.classList.remove('oculto');
+    victoryBox.classList.remove('oculto');
 
-        victoryBox.scrollIntoView({
-            behavior: "smooth",
-            block: 'start'
-        });
+    victoryBox.scrollIntoView({
+        behavior: "smooth",
+        block: 'start'
+    });
 }
 
 
@@ -216,7 +218,7 @@ function Guess() {
                 balao.classList.add("oculto")
             }, 5000);
             frierenPlush.classList.add('shake')
-            inputBusca.disabled = true; 
+            inputBusca.disabled = true;
             inputBusca.placeholder = "Você já acertou! Volte amanhã.";
 
             inputBusca.value = '';
@@ -224,7 +226,8 @@ function Guess() {
             setTimeout(() => {
                 mensagemElemento.innerHTML = `<h2>Você acertou! <br>✨ O personagem era <span style="color: #7C7BEF;">${personagemDoDia.nome}</span>! ✨</h2>`;
                 mensagemElemento2.innerHTML = `<h2> Você acertou em <span style="color: #7C7BEF;">${chuteQtn} tentativas</span>!</h2>`;
-
+                // compartilhar.innerHTML = `<h2> Compartilhar </h2>`
+                
 
                 victoryBox.classList.remove('oculto');
 
@@ -395,7 +398,7 @@ inputBusca.addEventListener('input', () => {
                     <span>${p.nome}</span>
                 `;
 
-                
+
                 item.onclick = () => {
                     inputBusca.value = p.nome;
                     sugestoesBox.innerHTML = '';
@@ -415,15 +418,15 @@ inputBusca.addEventListener('input', () => {
         sugestoesBox.classList.add('oculto');
     }
 
-    
+
 });
 
-inputBusca.addEventListener('keydown', (event) =>{
-    if(event.key === "Enter"){
+inputBusca.addEventListener('keydown', (event) => {
+    if (event.key === "Enter") {
         const primeiraSugestao = sugestoesBox.querySelector('.sugestao-item')
-       
 
-        if(primeiraSugestao){
+
+        if (primeiraSugestao) {
             primeiraSugestao.click()
 
         }
@@ -435,7 +438,7 @@ document.addEventListener('click', (e) => {
     if (e.target !== inputBusca) sugestoesBox.innerHTML = '';
 });
 
-xButton.addEventListener('click', ()=>{
+xButton.addEventListener('click', () => {
     victoryBox.classList.remove('float')
     xButton.remove()
 
@@ -446,12 +449,12 @@ xButton.addEventListener('click', ()=>{
 
 function atualizarContagemRegressiva() {
     const agora = new Date();
-    
+
     const amanha = new Date();
     amanha.setDate(amanha.getDate() + 1);
     amanha.setHours(0, 0, 0, 0);
 
-    const diferenca = amanha - agora; 
+    const diferenca = amanha - agora;
 
     const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
     const minutos = Math.floor((diferenca / 1000 / 60) % 60);
@@ -468,5 +471,23 @@ function atualizarContagemRegressiva() {
 }
 
 setInterval(atualizarContagemRegressiva, 1000);
-atualizarContagemRegressiva(); 
+atualizarContagemRegressiva();
 
+function compartilharResultado() {
+    const texto = `Joguei Frierendle hoje e acertei em ${chuteQtn} tentativas! 🌸✨\n\nJogue você também: ${window.location.href}`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'Frierendle',
+            text: texto,
+            url: window.location.href,
+        });
+    } else {
+        navigator.clipboard.writeText(texto);
+        alert("Resultado copiado para a área de transferência!");
+    }
+}
+
+compartilhar.addEventListener('click', ()=>{
+    compartilharResultado()
+})
