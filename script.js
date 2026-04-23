@@ -28,6 +28,8 @@ const balao = document.getElementById("balao-fala")
 
 
 
+
+
 const listaPersonagens = [
     { "nome": "Frieren", "imagem": "./images/icons/Frieren_anime_portrait.webp", "genero": "Feminino", "raca": "Elfo", "classe": "Mago", "afiliacao": ["Grupo do Herói", "Grupo da Frieren", "Exame de Magos"], "habilidade": "Magia de Ataque (Zoltraak)", "status": "Vivo", "primeira_aparicao": "Episódio 1" },
     { "nome": "Himmel", "imagem": "./images/icons/Himmel_anime_portrait.webp", "genero": "Masculino", "raca": "Humano", "classe": "Guerreiro", "afiliacao": ["Grupo do Herói"], "habilidade": "Esgrima", "status": "Morto", "primeira_aparicao": "Episódio 1" },
@@ -120,6 +122,7 @@ if (dataSalva === hoje && chutesSalvos) {
                 inputBusca.disabled = true;
                 inputBusca.placeholder = "Você já acertou! Volte amanhã.";
                 let qntChuteStorage = localStorage.getItem('qnt_chutes')
+                
                 setTimeout(() => {
                     mensagemElemento.innerHTML = `<h2>Você acertou! <br>✨ O personagem era <span style="color: #7C7BEF;">${personagemDoDia.nome}</span>! ✨</h2>`;
                     mensagemElemento2.innerHTML = `<h2> Você acertou em <span style="color: #7C7BEF;">${qntChuteStorage} tentativas</span>!</h2>`;
@@ -474,13 +477,13 @@ setInterval(atualizarContagemRegressiva, 1000);
 atualizarContagemRegressiva();
 
 function compartilharResultado() {
-    const texto = `Joguei Frierendle hoje e acertei em ${chuteQtn} tentativas! 🌸✨\n\nJogue você também: ${window.location.href}`;
+    const qntChuteStorage = localStorage.getItem('qnt_chutes')
+    const texto = `Joguei Frierendle hoje e acertei em ${chuteQtn | qntChuteStorage} tentativas! 🌸✨\n\nJogue você também: ${window.location.href}`;
     
     if (navigator.share) {
         navigator.share({
             title: 'Frierendle',
             text: texto,
-            url: window.location.href,
         });
     } else {
         navigator.clipboard.writeText(texto);
