@@ -395,6 +395,7 @@ inputBusca.addEventListener('input', () => {
                     <span>${p.nome}</span>
                 `;
 
+                
                 item.onclick = () => {
                     inputBusca.value = p.nome;
                     sugestoesBox.innerHTML = '';
@@ -413,7 +414,22 @@ inputBusca.addEventListener('input', () => {
 
         sugestoesBox.classList.add('oculto');
     }
+
+    
 });
+
+inputBusca.addEventListener('keydown', (event) =>{
+    if(event.key === "Enter"){
+        const primeiraSugestao = sugestoesBox.querySelector('.sugestao-item')
+       
+
+        if(primeiraSugestao){
+            primeiraSugestao.click()
+
+        }
+    }
+})
+
 
 document.addEventListener('click', (e) => {
     if (e.target !== inputBusca) sugestoesBox.innerHTML = '';
