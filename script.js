@@ -478,7 +478,7 @@ atualizarContagemRegressiva();
 
 function compartilharResultado() {
     const qntChuteStorage = localStorage.getItem('qnt_chutes')
-    const texto = `Joguei Frierendle hoje e acertei em ${chuteQtn | qntChuteStorage} tentativas! 🌸✨\n\nJogue você também: ${window.location.href}`;
+    const texto = `Joguei Frierendle hoje e acertei em ${chuteQtn | qntChuteStorage} tentativas! 🌼🧝‍♀️✨\n\nJogue você também: ${window.location.href}`;
     
     if (navigator.share) {
         navigator.share({
