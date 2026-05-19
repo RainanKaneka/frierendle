@@ -90,6 +90,13 @@ button:hover{
     background-color: #fd2158;
 }
 
+.mode-buttons{
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
 table{
     border-collapse: separate;
     border-spacing: 8px; 
@@ -243,40 +250,50 @@ main{
 
 
 .mensagem{
-    position: relative;
-    top: 30px;
     color: #ffd700;
     text-shadow: #1a1a2e 2px 2px 2px;
     font-size: 0.8rem;
     text-align: center;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .mensagem2{
-    position: relative;
-    bottom: -30%;
     color: #ffd700;
     text-shadow: #1a1a2e 2px 2px 2px;
     font-size: 0.8rem;
     text-align: center;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .victoryBox{
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
     width: 400px;
-    height: 500px;
+    min-height: 540px;
     background-color: #0f3460;
     border-radius: 20px;
     border: solid 2.5px #ffd700;
-    padding: 0px 10px 0px 10px;
+    padding: 36px 18px 20px 18px;
     margin-top: 3rem;
     animation: revealVictory 1.2s forwards;
+    box-sizing: border-box;
 }
 
 .float{
     position: fixed;
-    top: 20%;
+    top: 25%;
+
+    z-index: 2000;
 }
 
 .frierenLogo{
@@ -332,9 +349,8 @@ main{
 }
 
 .gif{
-    position: relative;
-    top: 65px;
-    width: 300px;
+    width: 280px;
+    max-width: 100%;
     border-radius: 10px;
 }
 
@@ -419,7 +435,8 @@ main{
     border-radius: 5px;
     color: #ffd700; 
     text-align: center;
-    margin-top: 50px;
+    width: 90%;
+    box-sizing: border-box;
 }
 
 #timer {
@@ -462,11 +479,9 @@ main{
 }
 
 .compartilhar{
-    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    bottom: 20px;
     width: 200px;
     height: 50px;
     background-color: #1b5eb1;
@@ -485,6 +500,32 @@ main{
     color: #1b5eb1;
 }
 
+.tentarNovamente{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 240px;
+    height: 46px;
+    background-color: #e94560;
+    font-size: x-large;
+    font-family: 'FrierenFont';
+    border-radius: 30px;
+    transition: 0.5s;
+    border: solid #ffd700 2px;
+    margin: 10px;
+}
+
+.tentarNovamente:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    background-color: #ffd700;
+    color: #1b5eb1;
+}
+
+.tentarNovamente.oculto{
+    display: none;
+}
+
 /*
 .blur {
     position: absolute;
@@ -495,3 +536,17 @@ main{
     background-color: rgba(0, 0, 0, 0.4); 
     backdrop-filter: blur(5px); 
 }*/
+
+.backgroundManga{
+    background-repeat: no-repeat;
+    background: 
+        linear-gradient(
+            to bottom,              
+            rgba(0, 0, 0, 0.8) 0%,  
+            rgba(0, 0, 0, 0) 40%,   
+            rgba(0, 0, 0, 0) 60%,   
+            rgba(0, 0, 0, 0.9) 100%  
+        ),
+        url(images/frierenWpp5.jpeg) no-repeat center center fixed; 
+    background-size: cover;
+}

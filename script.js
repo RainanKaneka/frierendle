@@ -4,7 +4,13 @@ const mensagemElemento2 = document.getElementById("mensagem2")
 
 const compartilhar = document.getElementById("compartilhar")
 
+const tentarNovamente = document.getElementById("tentarNovamente")
+
 let guessButton = document.getElementById("guessButton")
+
+let botaoSpoiler = document.getElementById("btn-spoiler")
+
+let botaoInfinito = document.getElementById("btn-infinito")
 
 let charName = document.getElementById("charName")
 
@@ -15,6 +21,8 @@ let audioAtual = null;
 let balaoTimer = null
 
 let chuteQtn = 0;
+
+let victoryTimer = null;
 
 let victoryBox = document.querySelector('.victoryBox')
 
@@ -71,27 +79,149 @@ const listaPersonagens = [
     { "nome": "Falsch", "imagem": "./images/icons/Falsch_anime_portrait.webp", "genero": "Masculino", "raca": "Humano", "classe": "Mago", "afiliacao": ["Assosiação Mágica Continental"], "habilidade": "Magia de Projeção", "status": "Vivo", "primeira_aparicao": "Episódio 18" },
     { "nome": "Serie", "imagem": "./images/icons/Serie_anime_portrait.webp", "genero": "Feminino", "raca": "Elfo", "classe": "Mago", "afiliacao": ["Assosiação Mágica Continental"], "habilidade": "Conhecimento de Todas as Magias", "status": "Vivo", "primeira_aparicao": "Episódio 20" },
     { "nome": "Bose", "imagem": "./images/icons/Bose_anime_portrait.webp", "genero": "Masculino", "raca": "Demônio", "classe": "Mago", "afiliacao": ["Sete Sábios da Destruição", "Exército do Rei Demônio"], "habilidade": "Magia de Barreira Eterna", "status": "Morto", "primeira_aparicao": "Episódio 18" },
-
+    { "nome": "Hero of the South", "imagem": "./images/icons/Hero_of_the_South_anime_portrait.webp", "genero": "Masculino", "raca": "Humano", "classe": "Guerreiro", "afiliacao": ["N/A"], "habilidade": "Previsão do Futuro", "status": "Morto", "primeira_aparicao": "Episódio 30"},
     /* Mangá */
-    { "nome": "Macht", "imagem": "./images/icons/Macht_anime_portrait.webp", "genero": "Masculino", "raca": "Demônio", "classe": "Mago", "afiliacao": ["Sete Sábios da Destruição", "Exército do Rei Demônio"], "habilidade": "Diagolze", "status": "Morto", "primeira_aparicao": "Capítulo 77" },
-    { "nome": "Grausam", "imagem": "./images/icons/Grausam_manga_portrait.webp", "genero": "Masculino", "raca": "Demônio", "classe": "Mago", "afiliacao": ["Sete Sábios da Destruição", "Exército do Rei Demônio"], "habilidade": "Ansehelschella", "status": "Morto", "primeira_aparicao": "Capítulo 89" },
-    { "nome": "Hero of the South", "imagem": "./images/icons/Hero_of_the_South_anime_portrait.webp", "genero": "Masculino", "raca": "Humano", "classe": "Guerreiro", "afiliacao": ["N/A"], "habilidade": "Previsão do Futuro", "status": "Morto", "primeira_aparicao": "Episódio 30" },
-    { "nome": "Solitär", "imagem": "./images/icons/Solitar_manga_portrait.webp", "genero": "Feminino", "raca": "Demônio", "classe": "Mago", "afiliacao": ["N/A"], "habilidade": "Manipulação de Mana", "status": "Morto", "primeira_aparicao": "Capítulo 88" }
+
+    { "nome": "Macht", "imagem": "./images/icons/Macht_anime_portrait.webp", "genero": "Masculino", "raca": "Demônio", "classe": "Mago", "afiliacao": ["Sete Sábios da Destruição", "Exército do Rei Demônio"], "habilidade": "Diagolze", "status": "Morto", "primeira_aparicao": "Capítulo 77", "spoiler":"true" },
+    { "nome": "Grausam", "imagem": "./images/icons/Grausam_manga_portrait.webp", "genero": "Masculino", "raca": "Demônio", "classe": "Mago", "afiliacao": ["Sete Sábios da Destruição", "Exército do Rei Demônio"], "habilidade": "Ansehelschella", "status": "Morto", "primeira_aparicao": "Capítulo 89", "spoiler":"true" },
+    { "nome": "Solitär", "imagem": "./images/icons/Solitar_manga_portrait.webp", "genero": "Feminino", "raca": "Demônio", "classe": "Mago", "afiliacao": ["N/A"], "habilidade": "Manipulação de Mana", "status": "Morto", "primeira_aparicao": "Capítulo 88", "spoiler":"true" }
 ];
+
+const LISTA_ANIME_FIXA = listaPersonagens.filter(p => !p.spoiler);
+const LISTA_COMPLETA_FIXA = listaPersonagens; 
+
+let modoSpoiler = false
+let modoInfinito = false
+
+
+let chutesNormal = JSON.parse(localStorage.getItem('chutes_normal')) || [];
+let chutesSpoiler = JSON.parse(localStorage.getItem('chutes_spoiler')) || [];
+let ultimoPersonagemInfinito = null;
+let tentativasRodada = 0;
+
+function obterListaModoAtual() {
+    return modoSpoiler ? LISTA_COMPLETA_FIXA : LISTA_ANIME_FIXA;
+}
+
+function escolherPersonagemInfinito() {
+    const lista = obterListaModoAtual();
+    const candidatos = lista.filter(personagem => personagem.nome !== ultimoPersonagemInfinito);
+    const listaSorteio = candidatos.length ? candidatos : lista;
+    return listaSorteio[Math.floor(Math.random() * listaSorteio.length)];
+}
+
+function escolherPersonagemDiario(lista, deslocamento = 0) {
+    const indiceAgenda = (semente + deslocamento) % LISTA_COMPLETA_FIXA.length;
+    return lista[indiceAgenda % lista.length];
+}
+
+function esconderVictoryBox() {
+    if (victoryTimer) {
+        clearTimeout(victoryTimer);
+        victoryTimer = null;
+    }
+
+    victoryBox.classList.add('oculto');
+    victoryBox.classList.add('float');
+    tentarNovamente.classList.add('oculto');
+    document.getElementById("countdown-container").classList.toggle('oculto', modoInfinito);
+    mensagemElemento.innerHTML = "";
+    mensagemElemento2.innerHTML = "";
+}
+
+function exibirVictoryBox() {
+    victoryBox.classList.add('float');
+    victoryBox.classList.remove('oculto');
+}
+
+function resetarRodadaInfinita() {
+    ultimoPersonagemInfinito = personagemDoDia ? personagemDoDia.nome : null;
+    personagemDoDia = escolherPersonagemInfinito();
+    personagensChutados = [];
+    tentativasRodada = 0;
+    chuteQtn = 0;
+    tableBody.innerHTML = "";
+    inputBusca.disabled = false;
+    inputBusca.placeholder = "Digite o personagem aqui...";
+    inputBusca.value = "";
+    esconderVictoryBox();
+    console.log("Alvo infinito:", personagemDoDia.nome);
+}
+
+function carregarModoDeJogo() {
+    esconderVictoryBox();
+    inputBusca.disabled = false;
+    inputBusca.placeholder = "Digite o personagem aqui...";
+    inputBusca.value = "";
+    sugestoesBox.innerHTML = '';
+    sugestoesBox.classList.add('oculto');
+    // 1. Define o personagem do dia baseado no modo
+    if (modoSpoiler === false) {
+        const listaAnime = listaPersonagens.filter(p => !p.spoiler);
+        personagemDoDia = modoInfinito ? escolherPersonagemInfinito() : escolherPersonagemDiario(LISTA_ANIME_FIXA);
+        personagensChutados = chutesNormal; // Aponta para o histórico normal
+        
+    } else {
+        personagemDoDia = modoInfinito ? escolherPersonagemInfinito() : escolherPersonagemDiario(LISTA_COMPLETA_FIXA, 1);
+        personagensChutados = chutesSpoiler; // Aponta para o histórico spoiler
+    }
+
+    // 2. Limpa a tabela atual e renderiza o histórico do modo escolhido
+    if (modoInfinito) {
+        personagensChutados = [];
+        tentativasRodada = 0;
+        chuteQtn = 0;
+    }
+
+
+    renderizarChutesSalvos(); 
+    atualizarContagemRegressiva();
+    
+    // 3. Opcional: Fechar a victoryBox se o jogador ainda não ganhou nesse modo
+    // verificarStatusVitoria(); 
+}
+
+
+botaoSpoiler.addEventListener('click', ()=>{
+    modoSpoiler = !modoSpoiler
+    botaoSpoiler.innerText = modoSpoiler ? "Modo: Mangá" : "Modo: Anime";
+    console.log(personagemDoDia.nome)
+
+    if(modoSpoiler){
+        document.querySelector('body').classList.add('backgroundManga')
+    }
+    else{
+        document.querySelector('body').classList.remove('backgroundManga')
+    }
+
+    carregarModoDeJogo();
+})
+
+botaoInfinito.addEventListener('click', ()=>{
+    modoInfinito = !modoInfinito
+    botaoInfinito.innerText = modoInfinito ? "Modo: Infinito" : "Modo: Diario";
+    carregarModoDeJogo();
+})
 
 const hoje = new Date().toDateString();
 const semente = new Date().getFullYear() * 10000 + (new Date().getMonth() + 1) * 100 + new Date().getDate();
-const personagemDoDia = listaPersonagens[semente % listaPersonagens.length];
 
-// const personagemDoDia = listaPersonagens[Math.floor(Math.random() * listaPersonagens.length)];
+let personagemDoDia;
 
-let personagensChutados = [];
-const dataSalva = localStorage.getItem('data_jogo');
-const chutesSalvos = localStorage.getItem('chutes_frierendle');
 
-if (dataSalva === hoje && chutesSalvos) {
-    personagensChutados = JSON.parse(chutesSalvos);
-    function renderizarChutesSalvos() {
+if (modoSpoiler === false){
+    const listaAnime = listaPersonagens.filter(p => !p.spoiler);
+    personagemDoDia = escolherPersonagemDiario(listaAnime);
+    console.log("teste false")
+}else{
+    personagemDoDia = escolherPersonagemDiario(listaPersonagens, 1);
+    console.log("teste true")
+}
+
+console.log(`O personagem do dia é ${personagemDoDia.nome}`)
+
+
+function renderizarChutesSalvos() {
         const tabelaCorpo = document.getElementById("tabela-corpo");
 
         tabelaCorpo.innerHTML = "";
@@ -123,21 +253,37 @@ if (dataSalva === hoje && chutesSalvos) {
                 inputBusca.placeholder = "Você já acertou! Volte amanhã.";
                 let qntChuteStorage = localStorage.getItem('qnt_chutes')
                 
-                setTimeout(() => {
+                victoryTimer = setTimeout(() => {
+                    document.getElementById("countdown-container").classList.remove('oculto');
+                    tentarNovamente.classList.add('oculto');
                     mensagemElemento.innerHTML = `<h2>Você acertou! <br>✨ O personagem era <span style="color: #7C7BEF;">${personagemDoDia.nome}</span>! ✨</h2>`;
                     mensagemElemento2.innerHTML = `<h2> Você acertou em <span style="color: #7C7BEF;">${qntChuteStorage} tentativas</span>!</h2>`;
 
 
-                    victoryBox.classList.remove('oculto');
+                    exibirVictoryBox();
 
                     victoryBox.scrollIntoView({
                         behavior: "smooth",
                         block: 'start'
                     });
                 }, 3.5);
+                tentarNovamente.classList.add('oculto');
             }
         });
     }
+
+// const personagemDoDia = listaPersonagens[semente % listaPersonagens.length];
+
+// const personagemDoDia = listaPersonagens[Math.floor(Math.random() * listaPersonagens.length)];
+
+let personagensChutados = [];
+const dataSalva = localStorage.getItem('data_jogo');
+const chutesSalvos = localStorage.getItem('chutes_frierendle');
+
+if (dataSalva === hoje && chutesSalvos) {
+    personagensChutados = JSON.parse(chutesSalvos);
+    chutesNormal = personagensChutados;
+    
     renderizarChutesSalvos();
 } else {
     localStorage.clear();
@@ -164,9 +310,11 @@ function Guess() {
     let nomeDigitado = charName.value
 
     chuteQtn++
-    localStorage.setItem('qnt_chutes', chuteQtn)
+    tentativasRodada++
+    localStorage.setItem('qnt_chutes', modoInfinito ? tentativasRodada : chuteQtn)
 
-    const personagemEncontrado = listaPersonagens.find(p => p.nome.toLowerCase() === nomeDigitado.toLowerCase())
+    const listaDisponivel = obterListaModoAtual()
+    const personagemEncontrado = listaDisponivel.find(p => p.nome.toLowerCase() === nomeDigitado.toLowerCase())
 
     if (!personagemEncontrado) {
         alert("Personagem não encontrado!");
@@ -180,8 +328,18 @@ function Guess() {
     else {
         personagensChutados.push(personagemEncontrado)
     }
-    localStorage.setItem('chutes_frierendle', JSON.stringify(personagensChutados));
-    localStorage.setItem('data_jogo', new Date().toDateString());
+    if (!modoInfinito) {
+        localStorage.setItem('chutes_frierendle', JSON.stringify(personagensChutados));
+        localStorage.setItem('data_jogo', new Date().toDateString());
+        const chaveStorage = modoSpoiler ? 'chutes_spoiler' : 'chutes_normal';
+        localStorage.setItem(chaveStorage, JSON.stringify(personagensChutados));
+        localStorage.setItem('data_jogo', hoje);
+        if (modoSpoiler) {
+            chutesSpoiler = personagensChutados;
+        } else {
+            chutesNormal = personagensChutados;
+        }
+    }
 
 
 
@@ -225,19 +383,36 @@ function Guess() {
             inputBusca.placeholder = "Você já acertou! Volte amanhã.";
 
             inputBusca.value = '';
+            if (modoInfinito) {
+                inputBusca.placeholder = "Clique em Tentar novamente...";
+            }
+            const tentativasVitoria = modoInfinito ? tentativasRodada : chuteQtn;
+            if (modoInfinito) {
+                chuteQtn = tentativasVitoria;
+            }
 
             setTimeout(() => {
+                if (modoInfinito) {
+                    document.getElementById("countdown-container").classList.add('oculto');
+                } else {
+                    document.getElementById("countdown-container").classList.remove('oculto');
+                }
                 mensagemElemento.innerHTML = `<h2>Você acertou! <br>✨ O personagem era <span style="color: #7C7BEF;">${personagemDoDia.nome}</span>! ✨</h2>`;
                 mensagemElemento2.innerHTML = `<h2> Você acertou em <span style="color: #7C7BEF;">${chuteQtn} tentativas</span>!</h2>`;
                 // compartilhar.innerHTML = `<h2> Compartilhar </h2>`
                 
 
-                victoryBox.classList.remove('oculto');
+                exibirVictoryBox();
 
                 victoryBox.scrollIntoView({
                     behavior: "smooth",
                     block: 'start'
                 });
+                if (modoInfinito) {
+                    tentarNovamente.classList.remove('oculto');
+                } else {
+                    tentarNovamente.classList.add('oculto');
+                }
             }, 3.2);
         } else {
             novaLinha.classList.add("shake-row");
@@ -382,9 +557,11 @@ inputBusca.addEventListener('input', () => {
     const valor = inputBusca.value.toLowerCase();
     sugestoesBox.innerHTML = '';
 
+    const listaDisponivel = modoSpoiler ? listaPersonagens : listaPersonagens.filter(p=> !p.spoiler)
+
     if (valor.length > 0) {
 
-        const filtrados = listaPersonagens.filter(p =>
+        const filtrados = listaDisponivel.filter(p =>
             p.nome.toLowerCase().includes(valor)
         );
 
@@ -443,7 +620,6 @@ document.addEventListener('click', (e) => {
 
 xButton.addEventListener('click', () => {
     victoryBox.classList.remove('float')
-    xButton.remove()
 
 })
 
@@ -451,6 +627,14 @@ xButton.addEventListener('click', () => {
 
 
 function atualizarContagemRegressiva() {
+    if (modoInfinito) {
+        document.getElementById("countdown-container").classList.add('oculto');
+       
+        return;
+    }
+
+    document.getElementById("countdown-container").classList.remove('oculto');
+    document.getElementById("timer-label").innerText = "Proximo personagem em:";
     const agora = new Date();
 
     const amanha = new Date();
@@ -493,4 +677,10 @@ function compartilharResultado() {
 
 compartilhar.addEventListener('click', ()=>{
     compartilharResultado()
+})
+
+tentarNovamente.addEventListener('click', ()=>{
+    if (modoInfinito) {
+        resetarRodadaInfinita()
+    }
 })
