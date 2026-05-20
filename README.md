@@ -26,6 +26,8 @@ Um jogo de adivinhação diária baseado no universo de **Sousou no Frieren**, i
 * **Revelação Progressiva:** As informações dos personagens são reveladas coluna por coluna, criando suspense.
 * **Contagem Regressiva:** Um timer indica quanto tempo falta para o próximo desafio.
 * **Sons Imersivos:** Efeitos sonoros de interação e falas originais.
+* **Modo Infinito:** Você pode mesmo após acertar, tentar novamente acertar outro personagem aleatório.
+* **Modo Mangá:** Para os fãs que leram o mangá, podem escolher essa opção para um modo que contém todos os personagens mais relevantes que apareceram no mangá até então.
 
 ---
 
