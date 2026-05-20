@@ -953,7 +953,7 @@ botaoSpoiler.addEventListener("click", () => {
     document.querySelector(".mensagem").classList.add("mensagemManga")
     document.querySelector(".mensagem2").classList.add("mensagemManga2")
     document.querySelector(".compartilhar").classList.add("compartilharManga")
-    document.querySelector(".tentarNovamente").classList.add("tentarNovamentManga")
+    document.querySelector(".tentarNovamente").classList.add("tentarNovamenteManga")
     document.getElementById("countdown-container").classList.add("countdownManga")
     document.querySelector(".sugestoes-wrapper").classList.add("sugestoes-wrapperManga")
     document.querySelectorAll("th").forEach(th => {
@@ -971,7 +971,7 @@ botaoSpoiler.addEventListener("click", () => {
     document.querySelector(".mensagem").classList.remove("mensagemManga")
     document.querySelector(".mensagem2").classList.remove("mensagemManga2")
     document.querySelector(".compartilhar").classList.remove("compartilharManga")
-    document.querySelector(".tentarNovamente").classList.remove("tentarNovamentManga")
+    document.querySelector(".tentarNovamente").classList.remove("tentarNovamenteManga")
     document.getElementById("countdown-container").classList.remove("countdownManga")
     document.querySelectorAll("th").forEach(th => {
         th.classList.remove("thManga")
