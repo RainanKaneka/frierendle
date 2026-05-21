@@ -384,6 +384,7 @@ main {
   max-width: 100%;
 }
 
+
 /* ?Balão de Fala */
 
 .frieren-container {
@@ -732,6 +733,10 @@ main {
   background-color: rgba(0, 0, 0, 0.6);
   border-radius: 10px;
 
+}
+
+.frierenLogoManga{
+  margin: 15px 0px 15px 0px
 }
 
 @media (max-width: 900px) {

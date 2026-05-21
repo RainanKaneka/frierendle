@@ -941,7 +941,7 @@ botaoSpoiler.addEventListener("click", () => {
   modoSpoiler = !modoSpoiler;
   botaoSpoiler.innerText = modoSpoiler ? "Modo: Mangá" : "Modo: Anime";
   console.log(personagemDoDia.nome);
-
+  let frierenLogo = document.getElementById("frierenLogo");
   if (modoSpoiler) {
     document.querySelector("body").classList.add("backgroundManga");
     document.querySelectorAll("button").forEach(botao => {
@@ -959,6 +959,10 @@ botaoSpoiler.addEventListener("click", () => {
     document.querySelectorAll("th").forEach(th => {
         th.classList.add("thManga")
     })
+    
+    frierenLogo.src = "./images/frierenLogoManga.png"
+    frierenLogo.classList.add("frierenLogoManga")
+    
     // document.querySelector(".sugestao-item").classList.add("sugestao-itemManga")
   } else {
     document.querySelector("body").classList.remove("backgroundManga");
@@ -976,6 +980,8 @@ botaoSpoiler.addEventListener("click", () => {
     document.querySelectorAll("th").forEach(th => {
         th.classList.remove("thManga")
     })
+    frierenLogo.src = "./images/frierenLogo.png"
+    frierenLogo.classList.remove("frierenLogoManga")
 
   }
 
