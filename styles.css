@@ -471,6 +471,7 @@ main {
   cursor: pointer;
   transition: 0.2s;
   border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  background-color: #0f3460;
 }
 
 .sugestao-item:hover {
@@ -711,6 +712,7 @@ main {
 
 .sugestao-itemManga{
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: white;
     
 }
 
