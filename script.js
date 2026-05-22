@@ -809,7 +809,7 @@ const listaPersonagens = [
     raca: "Elfo",
     classe: "Mago",
     afiliacao: "N/A",
-    status: "Viva",
+    status: "Morto",
     primeira_aparicao: "Capítulo 133",
     habilidade: "Coluna de Luz",
     imagem: "./images/icons/minus.webp",
